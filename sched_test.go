@@ -3,6 +3,7 @@ package sched
 import (
 	"context"
 	"errors"
+	"fmt"
 	"testing"
 	"time"
 
@@ -71,5 +72,19 @@ func Test_Run(t *testing.T) {
 				t.Fatalf("err, want: %v, got: %v", tc.err, err)
 			}
 		})
+	}
+}
+
+func ExampleRun() {
+	task := func(ctx context.Context) error {
+		fmt.Println("task completed")
+		return nil
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	interval, timeout := 2*time.Second, 2*time.Second
+	tr := trigger.NewIntervalTrigger(time.Now(), interval, timeout)
+	if err := Run(ctx, tr, task); err != nil {
+		fmt.Println(err)
 	}
 }

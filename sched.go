@@ -1,3 +1,4 @@
+// Package sched implements context based task scheduling
 package sched
 
 import (
