@@ -33,7 +33,7 @@ func Test_BaseTrigger(t *testing.T) {
 		tc := cases[name]
 		t.Run(name, func(t *testing.T) {
 			clk := testutil.NewClockAt(tc.start)
-			trigger := NewIntervalTrigger(tc.start, tc.interval, tc.timeout)
+			trigger := newIntervalTrigger(tc.start, tc.interval, tc.timeout)
 			clk.AdvanceTo(tc.now)
 			if got := trigger.Next(tc.now); !got.Equal(tc.next) {
 				t.Fatalf("next, want: %v, got: %v", tc.next, got)

@@ -52,7 +52,7 @@ func Test_Run(t *testing.T) {
 			errCh := make(chan error)
 			ctx, cancel := context.WithCancel(context.TODO())
 			defer cancel()
-			tr := trigger.NewIntervalTrigger(time.Now(), tc.interval, tc.timeout)
+			tr := trigger.Every(tc.interval, tc.timeout)
 			task := testutil.SetupMockTask(clock.New(), tc.duration)
 			go func() {
 				if err := Run(ctx, tr, task.Run); err != nil {
@@ -83,7 +83,7 @@ func ExampleRun() {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	interval, timeout := 2*time.Second, 2*time.Second
-	tr := trigger.NewIntervalTrigger(time.Now(), interval, timeout)
+	tr := trigger.Every(interval, timeout)
 	if err := Run(ctx, tr, task); err != nil {
 		fmt.Println(err)
 	}
